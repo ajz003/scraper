@@ -33,6 +33,8 @@ mongoose.connect(MONGODB_URI);
 
 // Routes
 
+var result = {};
+
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
@@ -43,7 +45,7 @@ app.get("/scrape", function(req, res) {
     // Now, we grab every h2 within an article tag, and do the following:
     $(".newsblock-story-card__title-link").each(function(i, element) {
       // Save an empty result object
-      var result = {};
+      result = {};
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
