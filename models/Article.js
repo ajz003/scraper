@@ -7,7 +7,7 @@ var ArticleSchema = new Schema({
   title: {
     type: String,
     required: true,
-    unique: true
+    index: { unique: true }
   },
   link: {
     type: String,
@@ -21,8 +21,6 @@ var ArticleSchema = new Schema({
     ref: "Note"
   }]
 });
-
-ArticleSchema.index({title: 1}, {unique: true})
 
 var Article = mongoose.model("Article", ArticleSchema);
 
