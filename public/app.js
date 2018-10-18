@@ -34,9 +34,9 @@ $(document).on("click", "p", function () {
 
       for (let i = 0; i < n; i++) {
 
-      $("#notes").append("<div id='comment-holder'></div>");
+      $("#notes").append("<div id='comment-holder'>");
 
-        $("#comment-holder").append(`<p class="comment">${data.note[i].body}</p>`);
+        $("#comment-holder").append(`<p class="comment">${data.note[i].body}</p><button class="delete" data-id="${data.note[i]._id}">x</button>`);
     
 
     }
@@ -50,6 +50,35 @@ $(document).on("click", "p", function () {
 });
 
 // When you click the savenote button
+$(document).on("click", ".delete", function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+  var thatId = $(this).parent().parent().find("#savenote").attr("data-id");
+
+  // Run a POST request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: "DELETE",
+    url: `/delete/${thisId}/${thatId}`,
+    data: {
+      // Value taken from note textarea
+      body: $("#bodyinput").val()
+    }
+  })
+    // With that done
+    .then(function (data) {
+      // Log the response
+      console.log(data);
+      if (data === true) {
+        console.log("Comment deleted")
+      }
+      // Empty the notes section
+      $("#notes").empty();
+    });
+
+  // Also, remove the values entered in the input and textarea for note entry
+  $("#bodyinput").val("");
+});
+
 $(document).on("click", "#savenote", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
@@ -74,6 +103,10 @@ $(document).on("click", "#savenote", function () {
   // Also, remove the values entered in the input and textarea for note entry
   $("#bodyinput").val("");
 });
+
+
+
+
 
 $(document).on("click", "#scrape", function () {
 

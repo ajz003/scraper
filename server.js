@@ -125,6 +125,25 @@ app.post("/articles/:id", function(req, res) {
 });
 
 
+// Route for saving/updating an Article's associated Note
+app.delete("/delete/:noteId/:articleId", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  console.log(req.body)
+
+  db.Note.deleteOne({ _id: req.params.noteId })
+  .then(function() {
+  db.Article.update({_id: req.params.articleId}, {$pull: {_id: req.params.noteId}})
+  })
+  .then(function() {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(true);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
 // Start the server
 app.listen(process.env.PORT || PORT, function() {
   console.log("App running on port " + PORT + "!");
