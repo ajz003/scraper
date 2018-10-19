@@ -4,7 +4,7 @@ $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     let para = $("<p data-id='" + data[i]._id + "'>")
-    para.append("<h2>" + data[i].title + "</h2>" + "<a href='" + data[i].link + "'>Link to</a>" + "<br />" + data[i].summary + "</p>")
+    para.append("<h2>" + data[i].title + "</h2>" + "<a href='" + data[i].link + "'>Link to Article</a>" + "<br />" + data[i].summary + "</p>")
     $("#articles").append(para)
     
   
